@@ -22,7 +22,6 @@ namespace BoomTax.Api.SampleProject
 
         private static async Task Start()
         {
-            //string baseUrl = "https://api.boomtax.com";
             string baseUrl = ConfigurationManager.AppSettings["BaseUrl"];
 
             HttpResponseMessage response = new HttpResponseMessage();
@@ -50,8 +49,6 @@ namespace BoomTax.Api.SampleProject
                 {
                     Console.WriteLine($"Getting filing types");
                     var filingTypes = await client.FilingType.GetFilingTypesAsync();
-
-                    Console.WriteLine($"Getting filing types");
 
                     var aca2016FilingType = filingTypes.FirstOrDefault(o => o.TaxYear == 2016 && o.Name == "ACA Reporting (1094C/1095C)");
 
@@ -254,6 +251,8 @@ namespace BoomTax.Api.SampleProject
                     client.Filing.Delete(filing.Id.Value);
                     Console.WriteLine($"Filing deleted.");
                 }
+
+                Console.ReadKey();
             }
         }
 
