@@ -2,28 +2,30 @@
 
 REST API for electronic filing of IRS information returns. Create filings, submit forms, e-file to the IRS, and download copies — all through a simple HTTP interface.
 
+> **IRIS-Ready:** The IRS is retiring the FIRE system on December 31, 2026. BoomTax already files through IRIS for all 1099 forms. If you use the BoomTax API, your integration doesn't change — we handle the FIRE-to-IRIS conversion automatically. [Learn more](https://www.boomtax.com/irs-iris)
+
 **Base URL:** `https://api.boomtax.com`
 **Swagger docs:** `https://api.boomtax.com/swagger`
 **MCP Server:** [`@boomtax/mcp-server`](https://github.com/boomtax/mcp-server) — query your filing data from any AI assistant
 
 ## Supported Forms
 
-| Form | Description |
-|------|-------------|
-| **1094-B / 1095-B** | ACA health coverage (insurers, government agencies) |
-| **1094-C / 1095-C** | ACA employer-provided coverage (ALEs) |
-| **1099-MISC** | Miscellaneous income |
-| **1099-NEC** | Non-employee compensation |
-| **1099-INT** | Interest income |
-| **1099-DIV** | Dividends and distributions |
-| **1099-K** | Payment card and third-party network transactions |
-| **1099-R** | Distributions from pensions, annuities, IRAs |
-| **1099-SA** | Distributions from HSA, Archer MSA, or Medicare Advantage MSA |
-| **1099-C** | Cancellation of debt |
-| **1099-HC** | MA individual health coverage |
-| **W-2** | Wage and tax statement |
-| **W-2G** | Gambling winnings |
-| **5498-SA** | HSA, Archer MSA, or Medicare Advantage MSA contributions |
+| Form | Description | Filing System |
+|------|-------------|---------------|
+| **1094-B / 1095-B** | ACA health coverage (insurers, government agencies) | AIR |
+| **1094-C / 1095-C** | ACA employer-provided coverage (ALEs) | AIR |
+| **1099-MISC** | Miscellaneous income | IRIS |
+| **1099-NEC** | Non-employee compensation | IRIS |
+| **1099-INT** | Interest income | IRIS |
+| **1099-DIV** | Dividends and distributions | IRIS |
+| **1099-K** | Payment card and third-party network transactions | IRIS |
+| **1099-R** | Distributions from pensions, annuities, IRAs | IRIS |
+| **1099-SA** | Distributions from HSA, Archer MSA, or Medicare Advantage MSA | IRIS |
+| **1099-C** | Cancellation of debt | IRIS |
+| **1099-HC** | MA individual health coverage | PDR |
+| **W-2** | Wage and tax statement | BSO |
+| **W-2G** | Gambling winnings | IRIS |
+| **5498-SA** | HSA, Archer MSA, or Medicare Advantage MSA contributions | IRIS |
 
 ## Authentication
 
@@ -128,8 +130,21 @@ await httpClient.PostAsJsonAsync($"https://api.boomtax.com/EfileRequests?filingI
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| `GET` | `/FilingType` | List all available filing types |
+| `GET` | `/FilingType` | List all available filing types (includes `filingSystem` field: IRIS, AIR, BSO, PDR) |
 | `POST` | `/Download` | Request PDF download of a filing |
+
+## FIRE to IRIS Migration
+
+The IRS is permanently shutting down the FIRE system on **December 31, 2026**. All 1099 e-filing is moving to IRIS (Information Returns Intake System).
+
+**If you integrate with the BoomTax API, no changes are required.** BoomTax handles the IRIS transition transparently:
+
+- **Same endpoints** — the API doesn't change. You POST forms the same way.
+- **Same file formats** — if you upload Pub. 1220 FIRE-format files, BoomTax converts them to IRIS XML automatically.
+- **No TCC needed** — BoomTax files under its own IRS-authorized IRIS TCC.
+- **Filing system visibility** — the `GET /FilingType` endpoint now includes a `filingSystem` field so you can see which IRS system each form type uses (IRIS, AIR, BSO, or PDR).
+
+For more information, see our [complete IRIS migration guide](https://www.boomtax.com/irs-iris).
 
 ## Error Format
 
