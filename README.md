@@ -29,48 +29,54 @@ REST API for electronic filing of IRS information returns. Create filings, submi
 
 ## Authentication
 
-The API supports two authentication methods:
+The API uses OAuth 2.0. Create API credentials at [`/Account/Api/Create`](https://www.boomtax.com/Account/Api/Create) in the BoomTax portal — the client secret is shown only once on the success page, so capture it then. Credentials are scoped to `read` (GET endpoints) or `write` (all endpoints).
 
-### Bearer Token (server-to-server)
+### Client Credentials (server-to-server)
 
 ```http
-POST /Token
+POST /oauth/token
 Content-Type: application/x-www-form-urlencoded
 
-username=you@yourfirm.com&password=your-password&grant_type=password
+grant_type=client_credentials&client_id=<your-client-id>&client_secret=<your-client-secret>
 ```
 
 Response:
 ```json
 {
-  "access_token": "eyJ...",
-  "token_type": "bearer",
-  "expires_in": 82800,
-  "refresh_token": "abc123..."
+  "access_token": "...",
+  "token_type": "Bearer",
+  "expires_in": 3600
 }
 ```
 
 Include the token in subsequent requests:
 ```http
-Authorization: Bearer eyJ...
+Authorization: Bearer <access_token>
 ```
 
-### OAuth 2.0 Authorization Code (web apps)
+Access tokens expire after one hour. Request a new token when the current one is close to expiring.
+
+### Authorization Code (web apps and MCP clients)
+
+For user-delegated access, use the standard OAuth 2.0 authorization code flow with PKCE:
 
 - Authorization: `GET /oauth/authorize`
 - Token exchange: `POST /oauth/token`
+- Dynamic client registration: `POST /oauth/register`
+- Discovery metadata: `GET /.well-known/oauth-protected-resource`
 
 ## Quick Start
 
 ```csharp
-// 1. Authenticate
+// 1. Authenticate (client credentials)
 var credentials = new FormUrlEncodedContent(new Dictionary<string, string> {
-    { "username", "you@yourfirm.com" },
-    { "password", "your-password" },
-    { "grant_type", "password" }
+    { "grant_type", "client_credentials" },
+    { "client_id", "<your-client-id>" },
+    { "client_secret", "<your-client-secret>" }
 });
-var response = await httpClient.PostAsync("https://api.boomtax.com/Token", credentials);
-var token = JToken.Parse(await response.Content.ReadAsStringAsync())["access_token"].ToString();
+var response = await httpClient.PostAsync("https://api.boomtax.com/oauth/token", credentials);
+var token = JsonDocument.Parse(await response.Content.ReadAsStringAsync())
+    .RootElement.GetProperty("access_token").GetString();
 
 // 2. Set auth header
 httpClient.DefaultRequestHeaders.Authorization =
@@ -165,23 +171,25 @@ The [`BoomTax.Api.SampleProject`](BoomTax.Api.SampleProject/) in this repo demon
 
 To run it:
 
-1. Clone this repo
-2. Set your credentials via [user secrets](https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets):
+1. Create API credentials at [`/Account/Api/Create`](https://www.boomtax.com/Account/Api/Create). Choose `write` scope to exercise the full sample; `read` scope works for read-only scenarios. The client secret is shown only once — capture it then.
+2. Clone this repo.
+3. Set your credentials via [user secrets](https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets):
    ```bash
    cd BoomTax.Api.SampleProject
-   dotnet user-secrets set "UserName" "you@yourfirm.com"
-   dotnet user-secrets set "Password" "your-password"
+   dotnet user-secrets set "ClientId" "<your-client-id>"
+   dotnet user-secrets set "ClientSecret" "<your-client-secret>"
    ```
-3. Run:
+4. Run:
    ```bash
    dotnet run
    ```
 
 ## Getting Started
 
-1. Sign up at [boomtax.com](https://www.boomtax.com)
-2. Contact [support@boomtax.com](mailto:support@boomtax.com) to enable API access on your account
-3. Use the [Swagger docs](https://api.boomtax.com/swagger) to explore endpoints interactively
+1. Sign up at [boomtax.com](https://www.boomtax.com).
+2. Contact [support@boomtax.com](mailto:support@boomtax.com) to enable API access on your account.
+3. Create API credentials at [`/Account/Api/Create`](https://www.boomtax.com/Account/Api/Create).
+4. Use the [Swagger docs](https://api.boomtax.com/swagger) to explore endpoints interactively.
 
 ## License
 
