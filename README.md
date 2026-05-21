@@ -30,7 +30,7 @@ REST API for electronic filing of IRS information returns. Create filings, submi
 | **1099-DA** | Digital asset proceeds from broker transactions | IRIS |
 | **1099-DIV** | Dividends and distributions | IRIS |
 | **1099-G** | Certain government payments | IRIS |
-| **1099-HC** | MA individual health coverage | PDR |
+| **1099-HC** | MA individual health coverage | State ACA |
 | **1099-INT** | Interest income | IRIS |
 | **1099-K** | Payment card and third-party network transactions | IRIS |
 | **1099-LS** | Reportable life insurance sale | IRIS |
