@@ -12,20 +12,50 @@ REST API for electronic filing of IRS information returns. Create filings, submi
 
 | Form | Description | Filing System |
 |------|-------------|---------------|
+| **1042-S** | Foreign person's U.S. source income subject to withholding | IRIS |
+| **1042-T** | Annual summary and transmittal of Forms 1042-S | IRIS |
 | **1094-B / 1095-B** | ACA health coverage (insurers, government agencies) | AIR |
 | **1094-C / 1095-C** | ACA employer-provided coverage (ALEs) | AIR |
-| **1099-MISC** | Miscellaneous income | IRIS |
-| **1099-NEC** | Non-employee compensation | IRIS |
-| **1099-INT** | Interest income | IRIS |
-| **1099-DIV** | Dividends and distributions | IRIS |
-| **1099-K** | Payment card and third-party network transactions | IRIS |
-| **1099-R** | Distributions from pensions, annuities, IRAs | IRIS |
-| **1099-SA** | Distributions from HSA, Archer MSA, or Medicare Advantage MSA | IRIS |
+| **1097-BTC** | Bond tax credit | IRIS |
+| **1098** | Mortgage interest statement | IRIS |
+| **1098-C** | Contributions of motor vehicles, boats, and airplanes | IRIS |
+| **1098-E** | Student loan interest statement | IRIS |
+| **1098-F** | Fines, penalties, and other amounts | IRIS |
+| **1098-Q** | Qualifying longevity annuity contract information | IRIS |
+| **1098-T** | Tuition statement | IRIS |
+| **1099-A** | Acquisition or abandonment of secured property | IRIS |
+| **1099-B** | Proceeds from broker and barter exchange transactions | IRIS |
 | **1099-C** | Cancellation of debt | IRIS |
+| **1099-CAP** | Changes in corporate control and capital structure | IRIS |
+| **1099-DA** | Digital asset proceeds from broker transactions | IRIS |
+| **1099-DIV** | Dividends and distributions | IRIS |
+| **1099-G** | Certain government payments | IRIS |
 | **1099-HC** | MA individual health coverage | PDR |
-| **W-2** | Wage and tax statement | BSO |
-| **W-2G** | Gambling winnings | IRIS |
+| **1099-INT** | Interest income | IRIS |
+| **1099-K** | Payment card and third-party network transactions | IRIS |
+| **1099-LS** | Reportable life insurance sale | IRIS |
+| **1099-LTC** | Long-term care and accelerated death benefits | IRIS |
+| **1099-MISC** | Miscellaneous information | IRIS |
+| **1099-NEC** | Non-employee compensation | IRIS |
+| **1099-OID** | Original issue discount | IRIS |
+| **1099-PATR** | Taxable distributions from cooperatives | IRIS |
+| **1099-Q** | Payments from qualified education programs | IRIS |
+| **1099-QA** | Distributions from ABLE accounts | IRIS |
+| **1099-R** | Distributions from pensions, annuities, IRAs | IRIS |
+| **1099-S** | Proceeds from real estate transactions | IRIS |
+| **1099-SA** | Distributions from HSA, Archer MSA, or Medicare Advantage MSA | IRIS |
+| **1099-SB** | Seller's investment in life insurance contract | IRIS |
+| **3921** | Exercise of an incentive stock option | IRIS |
+| **3922** | Transfer of stock acquired through employee stock purchase plan | IRIS |
+| **5498** | IRA contribution information | IRIS |
+| **5498-ESA** | Coverdell ESA contribution information | IRIS |
+| **5498-QA** | ABLE account contribution information | IRIS |
 | **5498-SA** | HSA, Archer MSA, or Medicare Advantage MSA contributions | IRIS |
+| **W-2** | Wage and tax statement | BSO |
+| **W-2G** | Certain gambling winnings | IRIS |
+| **W-3** | Transmittal of wage and tax statements | BSO |
+
+> The live, machine-readable list is at `GET /FilingType`.
 
 ## Authentication
 
